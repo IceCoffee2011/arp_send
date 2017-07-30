@@ -41,3 +41,7 @@ def ARP_Pack(desitination,source,option,sender_HA,sender_IP,target_HA,target_IP)
         ]
     return ARP_
 
+def mac_get(device):
+    out = re.findall("ether ([0-9a-z]{2}:[0-9a-z]{2}:[0-9a-z]{2}:[0-9a-z]{2}:[0-9a-z]{2}:[0-9a-z]{2})",subprocess.check_output(["ifconfig",device]))[0]
+    return out
+

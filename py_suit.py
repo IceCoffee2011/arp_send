@@ -3,7 +3,7 @@ from tkinter import ttk
 import arp_send
 
 
-def send_button(*args):
+def send_button(*args):#Push button event handler
     try:
         Destination_v = arp_send.Tokenizer(Destination.get())
         Source_v = arp_send.Tokenizer(Source.get())
@@ -20,9 +20,9 @@ def send_button(*args):
 
 
 OPT=["ARP_REQUST","ARP_REPLY"]
-device_list=arp_send.device_get()
+device_list=arp_send.device_get()#Get network device list
 root = Tk()
-root.title("ARP SENDER")
+root.title("ARP SENDER")#GUI console Title
 
 if __name__ == "__main__" :
     mainframe = ttk.Frame(root, padding="10 10 12 12")
@@ -39,7 +39,8 @@ if __name__ == "__main__" :
     TargetIP = StringVar()
     ARP_OPT = StringVar()
     Dev_s = StringVar()
-
+    
+    """Set default value"""
     Dev_s.set(device_list[0])
     ARP_OPT.set("ARP_REQUEST")
     Destination.set(arp_send.DESTINATION)
@@ -47,6 +48,7 @@ if __name__ == "__main__" :
     SenderIP.set(arp_send.ip_get(device_list[0]))
 
 
+    """Set child item's layout"""
     Destination_en = ttk.Entry(mainframe, width=20, textvariable=Destination)
     Destination_en.grid(column=2, row=3, sticky=(W, E))
     Source_en = ttk.Entry(mainframe, width=20, textvariable=Source)
@@ -62,6 +64,7 @@ if __name__ == "__main__" :
     ARP_MENU = OptionMenu(mainframe,ARP_OPT,*OPT).grid(column=2,row=2)
     DEV_MENU = OptionMenu(mainframe, Dev_s, *device_list).grid(column=2, row=1)
 
+    """It is just label"""
     ttk.Label(mainframe, text="DEVICE").grid(column=1, row=1, sticky=W)
     ttk.Label(mainframe, text="ARP_OPTION").grid(column=1, row=2, sticky=W)
     ttk.Label(mainframe, text="Destination").grid(column=1, row=3, sticky=W)
@@ -72,7 +75,10 @@ if __name__ == "__main__" :
     ttk.Label(mainframe, text="TargetIP").grid(column=1, row=8, sticky=W)
     ttk.Button(mainframe, text="Send", command=send_button).grid(column=2, row=9, sticky=W)
 
+    """Give some padding between item and item """
     for child in mainframe.winfo_children(): child.grid_configure(padx=10, pady=10)
+    
+    """Focused item"""
     Destination_en.focus()
 
     root.bind('<Return>', send_button)

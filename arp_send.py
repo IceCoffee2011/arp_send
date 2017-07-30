@@ -11,11 +11,11 @@ def Tokenizer(str1):
         list_split=[int(str1.split(":")[i],16) for i in range(0,6)]
     return list_split
 
-def ARP_shoot(ARP_):
+def ARP_shoot(ARP_,device):
     sock = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(3))
     sock.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
     sock.setsockopt(socket.SOL_SOCKET,socket.SO_BROADCAST,1)
-    sock.bind(("eth0", 0))#Change to selectable 
+    sock.bind((device, 0))
     sock.send(b''.join(ARP_))
     sock.close()
 
@@ -47,6 +47,11 @@ def mac_get(device):
 
 def ip_get(device):
     out = re.findall("(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/24",subprocess.check_output(["ip","address","show",device]))[0]
+    return out
+
+def device_get():
+    out = re.findall(":\s(\S*?):",subprocess.check_output(["ip","link","show"]))
+    del(out)[0]
     return out
 
 

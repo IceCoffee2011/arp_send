@@ -45,3 +45,8 @@ def mac_get(device):
     out = re.findall("ether ([0-9a-z]{2}:[0-9a-z]{2}:[0-9a-z]{2}:[0-9a-z]{2}:[0-9a-z]{2}:[0-9a-z]{2})",subprocess.check_output(["ifconfig",device]))[0]
     return out
 
+def ip_get(device):
+    out = re.findall("(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/24",subprocess.check_output(["ip","address","show",device]))[0]
+    return out
+
+
